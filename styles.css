@@ -6,7 +6,13 @@ body {
     height: 100vh;
     margin: 0;
     background-color: #2c2c2c;
-    color: #ffffff;
+    color: #DCF0F7;
+}
+
+.wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 6rem;
 }
 
 .container {
@@ -33,7 +39,7 @@ button {
     cursor: pointer;
     border: none;
     background-color: #3a3a3a;
-    color: #ffffff;
+    color: #DCF0F7;
     border-radius: 10px;
     box-shadow: 4px 4px 8px #1a1a1a, -4px -4px 8px #3e3e3e;
     margin: 5px;
@@ -68,7 +74,7 @@ input[type="number"],
 input[type="range"] {
     cursor: pointer;
     background-color: #2c2c2c;
-    color: #ffffff;
+    color: #DCF0F7;
     border: none;
     border-radius: 10px;
     box-shadow: inset 4px 4px 8px #1a1a1a, inset -4px -4px 8px #3e3e3e;
