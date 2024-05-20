@@ -28,55 +28,78 @@
     <audio id="pingSound" src="ping.mp3" preload="auto"></audio>
     <script>
         document.addEventListener("DOMContentLoaded", () => {
-            const countdownElement = document.getElementById("countdown")
-            const startButton = document.getElementById("startButton")
-            const stopButton = document.getElementById("stopButton")
-            const pingSound = document.getElementById("pingSound")
-            const volumeSlider = document.getElementById("volumeSlider")
-            const intervalInput = document.getElementById("intervalInput")
+    const countdownElement = document.getElementById("countdown")
+    const startButton = document.getElementById("startButton")
+    const stopButton = document.getElementById("stopButton")
+    const pingSound = document.getElementById("pingSound")
+    const volumeSlider = document.getElementById("volumeSlider")
+    const intervalInput = document.getElementById("intervalInput")
 
-            let countdownInterval
-            let timeLeft
+    let countdownInterval
+    let timeLeft
+    let wakeLock = null
 
-            startButton.addEventListener("click", () => {
-                timeLeft = parseInt(intervalInput.value) * 60
-                startButton.disabled = true
-                stopButton.disabled = false
-                startCountdown()
-                pingSound.play()
-            })
+    startButton.addEventListener("click", () => {
+        timeLeft = parseInt(intervalInput.value) * 60
+        startButton.disabled = true
+        stopButton.disabled = false
+        startCountdown()
+        pingSound.play()
+        requestWakeLock()
+    })
 
-            stopButton.addEventListener("click", () => {
+    stopButton.addEventListener("click", () => {
+        clearInterval(countdownInterval)
+        timeLeft = parseInt(intervalInput.value) * 60
+        updateCountdownDisplay()
+        startButton.disabled = false
+        stopButton.disabled = true
+        releaseWakeLock()
+    })
+
+    volumeSlider.addEventListener("input", () => {
+        pingSound.volume = volumeSlider.value
+    })
+
+    function startCountdown() {
+        countdownInterval = setInterval(() => {
+            if (timeLeft <= 0) {
                 clearInterval(countdownInterval)
-                timeLeft = parseInt(intervalInput.value) * 60
-                updateCountdownDisplay()
-                startButton.disabled = false
-                stopButton.disabled = true
-            })
-
-            volumeSlider.addEventListener("input", () => {
-                pingSound.volume = volumeSlider.value
-            })
-
-            function startCountdown() {
-                countdownInterval = setInterval(() => {
-                    if (timeLeft <= 0) {
-                        clearInterval(countdownInterval)
-                        pingSound.play()
-                        timeLeft = parseInt(intervalInput.value) * 60 // reset timer
-                        startCountdown() // start the countdown again
-                    }
-                    updateCountdownDisplay()
-                    timeLeft--
-                }, 1000)
+                pingSound.play()
+                timeLeft = parseInt(intervalInput.value) * 60 // reset timer
+                startCountdown() // start the countdown again
             }
+            updateCountdownDisplay()
+            timeLeft--
+        }, 1000)
+    }
 
-            function updateCountdownDisplay() {
-                const minutes = Math.floor(timeLeft / 60)
-                const seconds = timeLeft % 60
-                countdownElement.textContent = `${minutes.toString().padStart(2, "0")}:${seconds.toString().padStart(2, "0")}`
-            }
-        })
+    function updateCountdownDisplay() {
+        const minutes = Math.floor(timeLeft / 60)
+        const seconds = timeLeft % 60
+        countdownElement.textContent = `${minutes.toString().padStart(2, "0")}:${seconds.toString().padStart(2, "0")}`
+    }
+
+    async function requestWakeLock() {
+        try {
+            wakeLock = await navigator.wakeLock.request('screen')
+            wakeLock.addEventListener('release', () => {
+                console.log('Screen Wake Lock released')
+            })
+            console.log('Screen Wake Lock is active')
+        } catch (err) {
+            console.error(`${err.name}, ${err.message}`)
+        }
+    }
+
+    function releaseWakeLock() {
+        if (wakeLock !== null) {
+            wakeLock.release()
+            wakeLock = null
+        }
+    }
+})
+
     </script>
 </body>
 </html>
