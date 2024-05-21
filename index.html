@@ -9,7 +9,9 @@
 </head>
 <body>
     <div class="wrapper">
-        <img src="logo.png" alt="">
+        <div class="logo-wrapper">
+            <img class="logo" src="logo.png" alt="">
+        </div>
         <div class="container">
             <h1>Interval Timer</h1>
             <div id="countdown">00:00</div>
@@ -17,89 +19,191 @@
                 <label for="intervalInput">Interval (minutes): </label>
                 <input type="number" id="intervalInput" min="1" value="5">
             </div>
-            <button id="startButton">Start</button>
-            <button id="stopButton" disabled>Stop</button>
+            <div class="controls">
+                <label for="soundSelect">Sounds: </label>
+                <button id="toggleSoundOptions" class="arrow-down">Flute</button>
+            </div>
+            <div class="options-wrapper" id="soundOptionsWrapper" style="display: none;>
+                <div class="sound-options" id="soundOptions" style="display: none;">
+                    <div class="sound-option" data-value="sounds/flute.mp3">
+                     <div class="left">
+                         <button class="play-button"><span class="play"></button>
+                         <span>Flute</span>
+                     </div>
+                     <button class="select-button">Select</button>
+                    </div>
+                    <div class="sound-option" data-value="sounds/guitar.wav">
+                     <div class="left">
+                         <button class="play-button"><span class="play"></button>
+                         <span>Guitar</span>
+                     </div>
+                     <button class="select-button">Select</button>
+                    </div>
+                    <div class="sound-option" data-value="sounds/harp.wav">
+                     <div class="left">
+                         <button class="play-button"><span class="play"></span></button>
+                         <span>Harp</span>
+                     </div>
+                     <button class="select-button">Select</button>
+                    </div>
+                    <div class="sound-option" data-value="sounds/double-beep.wav">
+                     <div class="left">
+                         <button class="play-button"><span class="play"></button>
+                         <span>Double Beep</span>
+                     </div>
+                     <button class="select-button">Select</button>
+                    </div>
+                    <div class="sound-option" data-value="sounds/bubble-pop.wav">
+                     <div class="left">
+                         <button class="play-button"><span class="play"></button>
+                         <span>Bubble Pop</span>
+                     </div>
+                     <button class="select-button">Select</button>
+                    </div>
+            </div>
+            <div class="start-stop">
+                <button id="startButton">Start</button>
+                <button id="stopButton" disabled>Stop</button>
+            </div>
             <div class="volume-control">
-                <label for="volumeSlider">Volume: </label>
+                <label for="volumeSlider" id="volume">Volume: </label>
                 <input type="range" id="volumeSlider" min="0" max="1" step="0.01" value="1">
             </div>
         </div>
     </div>
-    <audio id="pingSound" src="ping.mp3" preload="auto"></audio>
-    <script>
-        document.addEventListener("DOMContentLoaded", () => {
-    const countdownElement = document.getElementById("countdown")
-    const startButton = document.getElementById("startButton")
-    const stopButton = document.getElementById("stopButton")
-    const pingSound = document.getElementById("pingSound")
-    const volumeSlider = document.getElementById("volumeSlider")
-    const intervalInput = document.getElementById("intervalInput")
+    <audio id="currentSound" preload="auto"></audio>
+   <script>
+    document.addEventListener("DOMContentLoaded", () => {
+        const countdownElement = document.getElementById("countdown");
+        const startButton = document.getElementById("startButton");
+        const stopButton = document.getElementById("stopButton");
+        const currentSound = document.getElementById("currentSound");
+        const volumeSlider = document.getElementById("volumeSlider");
+        const intervalInput = document.getElementById("intervalInput");
+        const soundOptions = document.getElementById("soundOptions");
+        const soundOptionsWrapper = document.getElementById("soundOptionsWrapper");
+        const toggleSoundOptions = document.getElementById("toggleSoundOptions");
+        let currentSoundName = 'Flute';
+        let currentSoundFile = 'sounds/flute.mp3';
 
-    let countdownInterval
-    let timeLeft
-    let wakeLock = null
+        let countdownInterval;
+        let timeLeft;
+        let wakeLock = null;
 
-    startButton.addEventListener("click", () => {
-        timeLeft = parseInt(intervalInput.value) * 60
-        startButton.disabled = true
-        stopButton.disabled = false
-        startCountdown()
-        pingSound.play()
-        requestWakeLock()
-    })
+        startButton.addEventListener("click", () => {
+            timeLeft = parseInt(intervalInput.value) * 60;
+            startButton.disabled = true;
+            stopButton.disabled = false;
+            startCountdown();
+            currentSound.play();
+            console.log(`Playing sound: ${currentSound.src}`);
+            requestWakeLock();
+        });
 
-    stopButton.addEventListener("click", () => {
-        clearInterval(countdownInterval)
-        timeLeft = parseInt(intervalInput.value) * 60
-        updateCountdownDisplay()
-        startButton.disabled = false
-        stopButton.disabled = true
-        releaseWakeLock()
-    })
+        stopButton.addEventListener("click", () => {
+            clearInterval(countdownInterval);
+            timeLeft = parseInt(intervalInput.value) * 60;
+            updateCountdownDisplay();
+            startButton.disabled = false;
+            stopButton.disabled = true;
+            releaseWakeLock();
+        });
 
-    volumeSlider.addEventListener("input", () => {
-        pingSound.volume = volumeSlider.value
-    })
+        volumeSlider.addEventListener("input", () => {
+            currentSound.volume = volumeSlider.value;
+            console.log(`Volume set to: ${currentSound.volume}`);
+        });
 
-    function startCountdown() {
-        countdownInterval = setInterval(() => {
-            if (timeLeft <= 0) {
-                clearInterval(countdownInterval)
-                pingSound.play()
-                timeLeft = parseInt(intervalInput.value) * 60 // reset timer
-                startCountdown() // start the countdown again
+        toggleSoundOptions.addEventListener("click", () => {
+            // soundOptions.style.display = soundOptions.style.display === 'none' ? 'block' : 'none';
+            soundOptionsWrapper.style.display = soundOptionsWrapper.style.display === 'none' ? 'block' : 'none';
+            toggleSoundOptions.classList.toggle('arrow-up');
+            toggleSoundOptions.classList.toggle('arrow-down');
+        });
+
+        document.querySelectorAll('.play-button').forEach(button => {
+            button.addEventListener("click", (e) => {
+                const soundFile = e.target.closest('.sound-option').getAttribute('data-value');
+                currentSound.src = soundFile;
+                currentSound.play().then(() => {
+                    console.log(`Playing sound: ${currentSound.src}`);
+                }).catch(error => {
+                    console.error(`Error playing sound: ${error}`);
+                });
+            });
+        });
+
+        document.querySelectorAll('.select-button').forEach(button => {
+            button.addEventListener("click", (e) => {
+                const optionElement = e.target.closest('.sound-option');
+                currentSoundName = optionElement.querySelector('span').textContent;
+                currentSoundFile = optionElement.getAttribute('data-value');
+                currentSound.src = currentSoundFile;
+                toggleSoundOptions.innerHTML = `${currentSoundName}`;
+                soundOptions.style.display = 'none';
+                toggleSoundOptions.classList.remove('arrow-up');
+                toggleSoundOptions.classList.add('arrow-down');
+                updateSelectButtons();
+                console.log(`Selected sound: ${currentSoundFile}`);
+            });
+        });
+
+        function updateSelectButtons() {
+            document.querySelectorAll('.select-button').forEach(button => {
+                const optionElement = button.closest('.sound-option');
+                if (optionElement.getAttribute('data-value') === currentSoundFile) {
+                    button.disabled = true;
+                } else {
+                    button.disabled = false;
+                }
+            });
+        }
+
+        function startCountdown() {
+            countdownInterval = setInterval(() => {
+                if (timeLeft <= 0) {
+                    clearInterval(countdownInterval);
+                    currentSound.play().then(() => {
+                        console.log(`Playing sound: ${currentSound.src}`);
+                    }).catch(error => {
+                        console.error(`Error playing sound: ${error}`);
+                    });
+                    timeLeft = parseInt(intervalInput.value) * 60; // reset timer
+                    startCountdown(); // start the countdown again
+                }
+                updateCountdownDisplay();
+                timeLeft--;
+            }, 1000);
+        }
+
+        function updateCountdownDisplay() {
+            const minutes = Math.floor(timeLeft / 60);
+            const seconds = timeLeft % 60;
+            countdownElement.textContent = `${minutes.toString().padStart(2, "0")}:${seconds.toString().padStart(2, "0")}`;
+        }
+
+        async function requestWakeLock() {
+            try {
+                wakeLock = await navigator.wakeLock.request('screen');
+                wakeLock.addEventListener('release', () => {
+                    console.log('Screen Wake Lock released');
+                });
+                console.log('Screen Wake Lock is active');
+            } catch (err) {
+                console.error(`${err.name}, ${err.message}`);
             }
-            updateCountdownDisplay()
-            timeLeft--
-        }, 1000)
-    }
-
-    function updateCountdownDisplay() {
-        const minutes = Math.floor(timeLeft / 60)
-        const seconds = timeLeft % 60
-        countdownElement.textContent = `${minutes.toString().padStart(2, "0")}:${seconds.toString().padStart(2, "0")}`
-    }
-
-    async function requestWakeLock() {
-        try {
-            wakeLock = await navigator.wakeLock.request('screen')
-            wakeLock.addEventListener('release', () => {
-                console.log('Screen Wake Lock released')
-            })
-            console.log('Screen Wake Lock is active')
-        } catch (err) {
-            console.error(`${err.name}, ${err.message}`)
         }
-    }
 
-    function releaseWakeLock() {
-        if (wakeLock !== null) {
-            wakeLock.release()
-            wakeLock = null
+        function releaseWakeLock() {
+            if (wakeLock !== null) {
+                wakeLock.release();
+                wakeLock = null;
+            }
         }
-    }
-})
 
-    </script>
+        updateSelectButtons();
+    });
+</script>
+
 </body>
 </html>
