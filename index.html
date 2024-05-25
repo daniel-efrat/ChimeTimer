@@ -1,82 +1,110 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>ChimeTimer</title>
-    <link rel="stylesheet" href="styles.css">
-    <link rel="icon" type="image/svg+xml" href="favicon.png">
-</head>
-<body>
-    <div class="wrapper">
-        <header>
-            <div class="logo-wrapper">
-                <video id="vid" width="120" src="hourglass.mp4" loop></video>
-            </div>
-            <h1>ChimeTimer</h1>
-        </header>
-        <div class="container">
-            <h2>Interval Timer</h2>
-            <div id="countdown">00:00</div>
-            <div class="controls">
-                <label for="intervalInput">Interval (minutes): </label>
-                <input type="number" id="intervalInput" min="1" value="5">
-            </div>
-            <div class="controls">
-                <label for="soundSelect">Sounds: </label>
-                <button id="toggleSoundOptions" class="arrow-down"></button>
-            </div>
-            <div class="options-wrapper" id="soundOptionsWrapper" style="display: none;">
-                <div class="sound-options" id="soundOptions">
-                    <div class="sound-option" data-value="sounds/chimes.mp3">
-                        <div class="left">
-                            <button class="play-button"><span class="play"></span></button>
-                            <span>Chimes</span>
-                        </div>
-                        <button class="select-button">Select</button>
-                    </div>
-                    <div class="sound-option" data-value="sounds/flute.mp3">
-                        <div class="left">
-                            <button class="play-button"><span class="play"></span></button>
-                            <span>Flute</span>
-                        </div>
-                        <button class="select-button">Select</button>
-                    </div>
-                    <div class="sound-option" data-value="sounds/guitar.wav">
-                        <div class="left">
-                            <button class="play-button"><span class="play"></span></button>
-                            <span>Guitar</span>
-                        </div>
-                        <button class="select-button">Select</button>
-                    </div>
-                    <div class="sound-option" data-value="sounds/double-beep.wav">
-                        <div class="left">
-                            <button class="play-button"><span class="play"></span></button>
-                            <span>Double Beep</span>
-                        </div>
-                        <button class="select-button">Select</button>
-                    </div>
-                    <div class="sound-option" data-value="sounds/bubble-pop.wav">
-                        <div class="left">
-                            <button class="play-button"><span class="play"></span></button>
-                            <span>Bubble Pop</span>
-                        </div>
-                        <button class="select-button">Select</button>
-                    </div>
-                </div>
-            </div>
-            <div class="start-stop">
-                <button id="startButton">Start</button>
-                <button id="stopButton" disabled>Stop</button>
-            </div>
-            <div class="volume-control">
-                <label for="volumeSlider" id="volume">Volume: </label>
-                <input type="range" id="volumeSlider" min="0" max="1" step="0.01" value="1">
-            </div>
-        </div>
+    <link rel="stylesheet" href="styles.css" />
+    <link rel="icon" type="image/svg+xml" href="favicon.png" />
+  </head>
+  <body>
+    <div class="bg">
+      <video class="bg" id="vid" src="bg.mp4" loop></video>
     </div>
+    <div class="welcome"></div>
+    <div class="wrapper">
+      <header>
+        <div class="logo-wrapper">
+          <img src="favicon.png" alt="" />
+        </div>
+        <h1>ChimeTimer</h1>
+      </header>
+      <div class="container">
+        <h2>Interval Timer</h2>
+        <div id="countdown">00:00</div>
+        <div class="controls">
+          <label for="intervalInput">Interval (minutes): </label>
+          <input type="number" id="intervalInput" min="1" value="5" />
+        </div>
+        <div class="controls">
+          <label for="soundSelect">Sounds: </label>
+          <button id="toggleSoundOptions" class="arrow-down"></button>
+        </div>
+        <div
+          class="options-wrapper"
+          id="soundOptionsWrapper"
+          style="display: none"
+        >
+          <div class="sound-options" id="soundOptions">
+            <div class="sound-option" data-value="sounds/chimes.mp3">
+              <div class="left">
+                <button class="play-button"><span class="play"></span></button>
+                <span>Chimes</span>
+              </div>
+              <button class="select-button">Select</button>
+            </div>
+            <div class="sound-option" data-value="sounds/flute.mp3">
+              <div class="left">
+                <button class="play-button"><span class="play"></span></button>
+                <span>Flute</span>
+              </div>
+              <button class="select-button">Select</button>
+            </div>
+            <div class="sound-option" data-value="sounds/guitar.wav">
+              <div class="left">
+                <button class="play-button"><span class="play"></span></button>
+                <span>Guitar</span>
+              </div>
+              <button class="select-button">Select</button>
+            </div>
+            <div class="sound-option" data-value="sounds/double-beep.wav">
+              <div class="left">
+                <button class="play-button"><span class="play"></span></button>
+                <span>Double Beep</span>
+              </div>
+              <button class="select-button">Select</button>
+            </div>
+            <div class="sound-option" data-value="sounds/bubble-pop.wav">
+              <div class="left">
+                <button class="play-button"><span class="play"></span></button>
+                <span>Bubble Pop</span>
+              </div>
+              <button class="select-button">Select</button>
+            </div>
+          </div>
+        </div>
+        <div class="start-stop">
+          <button id="startButton">Start</button>
+          <button id="stopButton" disabled>Stop</button>
+        </div>
+        <div class="volume-control">
+          <label for="volumeSlider" id="volume">Volume: </label>
+          <input
+            type="range"
+            id="volumeSlider"
+            min="0"
+            max="1"
+            step="0.01"
+            value="1"
+          />
+        </div>
+      </div>
+    </div>
+   <div class="consent" id="consent">
+     <div
+       class="sound-option"
+       id="consentInner"
+       style="position: absolute; width: 400px; padding: 15px;"
+       data-value="sounds/chimes.mp3"
+     >
+        <p>Allow the app to play sounds</p>
+        
+        <button id="hiddenButton" class="play-button">
+          OK
+        </button>
+    </div>
+   </div>
     <audio id="currentSound" preload="auto"></audio>
-    <button id="hiddenButton" style="display:none;"></button>
     <script src="script.js"></script>
-</body>
+  </body>
 </html>

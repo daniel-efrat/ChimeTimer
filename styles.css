@@ -25,7 +25,7 @@ h2 {
 .logo-wrapper {
     display: flex;
     justify-content: center;
-    background-color: #fff;
+    background-color: #DCF0F7;
     height: 100px;
     width: 100px;
     border-radius: 50%;
@@ -44,7 +44,7 @@ h2 {
     width: 370px;
 }
 .container {
-    background: #2c2c2c;
+    /* background: #2c2c2c; */
     padding: 20px;
     border-radius: 20px;
     box-shadow: 8px 8px 16px #1a1a1a, -8px -8px 16px #3e3e3e;
@@ -68,7 +68,8 @@ button {
     font-size: 1em;
     cursor: pointer;
     border: none;
-    background-color: #3a3a3a;
+    /* background-color: #3a3a3a; */
+    background-color: transparent;
     color: #DCF0F7;
     box-shadow: 4px 4px 8px #1a1a1a, -4px -4px 8px #3e3e3e;
     margin: 5px;
@@ -218,7 +219,28 @@ input[type="range"]::-webkit-slider-thumb:hover {
   -webkit-mask-size: 100% 100%;
   mask-size: 100% 100%;
 } 
+.bg {
+    position: absolute;
+    width: 100vw;
+    height: 100vh;
+    z-index: -1;
+}
+.consent {
+    position: absolute;
+    width: 100vw;
+    height: 100vh;
+    background: #000;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
 
-video {
-    clip-path: circle(50% at 50% 50%);
+#consentInner {
+    display: flex;
+    flex-direction: column;
+}
+
+#hiddenButton {
+    padding: 2rem;
 }

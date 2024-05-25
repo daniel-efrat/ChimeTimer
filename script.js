@@ -10,6 +10,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const toggleSoundOptions = document.getElementById("toggleSoundOptions")
   const hiddenButton = document.getElementById("hiddenButton")
   const video = document.getElementById("vid")
+  const consent = document.getElementById("consent")
 
   // Define default sound name and file
   let currentSoundName = ""
@@ -17,7 +18,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
   let countdownInterval
   let timeLeft
-  let interactionInterval
 
   // Function to update the button text
   function updateToggleButton() {
@@ -46,12 +46,10 @@ document.addEventListener("DOMContentLoaded", () => {
     video.play()
     soundOptionsWrapper.style.display = "none"
     console.log(`Playing sound: ${currentSound.src}`)
-    startSimulatingUserInteraction()
   })
 
   stopButton.addEventListener("click", () => {
     clearInterval(countdownInterval)
-    clearInterval(interactionInterval)
     timeLeft = parseInt(intervalInput.value) * 60
     updateCountdownDisplay()
     startButton.disabled = false
@@ -143,14 +141,6 @@ document.addEventListener("DOMContentLoaded", () => {
       .padStart(2, "0")}:${seconds.toString().padStart(2, "0")}`
   }
 
-  function startSimulatingUserInteraction() {
-    console.log("Starting simulation of user interaction.")
-    interactionInterval = setInterval(() => {
-      simulateClick(hiddenButton)
-      console.log("Simulated user interaction.")
-    }, 30000) // Simulate interaction every 30 seconds
-  }
-
   function simulateClick(element) {
     const event = new MouseEvent("click", {
       view: window,
@@ -161,8 +151,13 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   hiddenButton.addEventListener("click", () => {
+    consent.style.display = "none"
     console.log("Hidden button clicked")
   })
+
+  // setTimeout(() => {
+  //   simulateClick(hiddenButton) // Simulate click once after 1 second delay
+  // }, 1000)
 
   updateSelectButtons()
   updateToggleButton() // Initial call to set the button text
