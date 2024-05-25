@@ -11,6 +11,9 @@ body {
   color: #dcf0f7;
   overflow-x: hidden;
 }
+::-webkit-scrollbar {
+  display: none;
+}
 
 header {
   display: flex;
@@ -233,12 +236,13 @@ input[type="range"]::-webkit-slider-thumb:hover {
 }
 
 .bg {
-  position: absolute;
+  position: fixed;
   width: 200vw;
   height: 100vh;
   z-index: -1;
   overflow: hidden;
 }
+
 
 .consent {
   position: absolute;
