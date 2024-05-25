@@ -9,6 +9,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const soundOptionsWrapper = document.getElementById("soundOptionsWrapper")
   const toggleSoundOptions = document.getElementById("toggleSoundOptions")
   const hiddenButton = document.getElementById("hiddenButton")
+  const video = document.getElementById("vid")
 
   // Define default sound name and file
   let currentSoundName = ""
@@ -42,6 +43,8 @@ document.addEventListener("DOMContentLoaded", () => {
     stopButton.disabled = false
     startCountdown()
     currentSound.play()
+    video.play()
+    soundOptionsWrapper.style.display = "none"
     console.log(`Playing sound: ${currentSound.src}`)
     startSimulatingUserInteraction()
   })
@@ -53,6 +56,8 @@ document.addEventListener("DOMContentLoaded", () => {
     updateCountdownDisplay()
     startButton.disabled = false
     stopButton.disabled = true
+    video.pause()
+    video.currentTime = 0
   })
 
   volumeSlider.addEventListener("input", () => {
