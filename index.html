@@ -11,7 +11,6 @@
     <div class="bg">
       <video class="bg" id="vid" src="bg.mp4" loop></video>
     </div>
-    <div class="welcome"></div>
     <div class="wrapper">
       <header>
         <div class="logo-wrapper">
@@ -89,21 +88,20 @@
           />
         </div>
       </div>
+      <div class="footer"></div>
     </div>
-   <div class="consent" id="consent">
-     <div
-       class="sound-option"
-       id="consentInner"
-       style="position: absolute; width: 400px; padding: 15px;"
-       data-value="sounds/chimes.mp3"
-     >
+    <div class="consent" id="consent">
+      <div
+        class="sound-option"
+        id="consentInner"
+        style="position: absolute; width: 400px; padding: 15px"
+        data-value="sounds/chimes.mp3"
+      >
         <p>Allow the app to play sounds</p>
-        
-        <button id="hiddenButton" class="play-button">
-          OK
-        </button>
+
+        <button id="okButton" class="play-button">OK</button>
+      </div>
     </div>
-   </div>
     <audio id="currentSound" preload="auto"></audio>
     <script src="script.js"></script>
   </body>

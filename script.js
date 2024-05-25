@@ -8,7 +8,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const soundOptions = document.getElementById("soundOptions")
   const soundOptionsWrapper = document.getElementById("soundOptionsWrapper")
   const toggleSoundOptions = document.getElementById("toggleSoundOptions")
-  const hiddenButton = document.getElementById("hiddenButton")
+  const okButton = document.getElementById("okButton")
   const video = document.getElementById("vid")
   const consent = document.getElementById("consent")
 
@@ -150,14 +150,10 @@ document.addEventListener("DOMContentLoaded", () => {
     element.dispatchEvent(event)
   }
 
-  hiddenButton.addEventListener("click", () => {
-    consent.style.display = "none"
+  okButton.addEventListener("click", () => {
+    consent.classList.add("up")
     console.log("Hidden button clicked")
   })
-
-  // setTimeout(() => {
-  //   simulateClick(hiddenButton) // Simulate click once after 1 second delay
-  // }, 1000)
 
   updateSelectButtons()
   updateToggleButton() // Initial call to set the button text
