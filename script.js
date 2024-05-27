@@ -11,6 +11,8 @@ document.addEventListener("DOMContentLoaded", () => {
   const okButton = document.getElementById("okButton")
   const video = document.getElementById("vid")
   const consent = document.getElementById("consent")
+  const hideButton = document.getElementById("hideButton")
+  const stripe = document.querySelectorAll(".stripe")
 
   // Define default sound name and file
   let currentSoundName = ""
@@ -141,20 +143,44 @@ document.addEventListener("DOMContentLoaded", () => {
       .padStart(2, "0")}:${seconds.toString().padStart(2, "0")}`
   }
 
-  function simulateClick(element) {
+  function simulateClick(hideButton) {
     const event = new MouseEvent("click", {
       view: window,
       bubbles: true,
       cancelable: true,
     })
-    element.dispatchEvent(event)
+    hideButton.dispatchEvent(event)
   }
 
   okButton.addEventListener("click", () => {
     consent.classList.add("up")
-    console.log("Hidden button clicked")
+    console.log("okay button clicked")
   })
 
   updateSelectButtons()
   updateToggleButton() // Initial call to set the button text
 })
+// Function to simulate user interaction by dispatching a click event
+function simulateClick(hideButton) {
+  const stripe = document.querySelectorAll(".stripe")
+
+    const event = new MouseEvent("click", {
+        view: window,
+        bubbles: true,
+        cancelable: true,
+    });
+    hideButton.dispatchEvent(event);
+    console.log("clicked");
+}
+
+// Function to keep screen awake by simulating clicks on the hidden button
+function keepScreenAwake() {
+    const hideButton = document.getElementById('hideButton');
+    if (hideButton) {
+        // Simulate a click on the hidden button every 10 seconds
+        setInterval(() => simulateClick(hideButton), 10000);
+    }
+}
+
+// Call the function to keep the screen awake
+keepScreenAwake();
